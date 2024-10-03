@@ -1,11 +1,11 @@
 import MainPage from '../../pages/main-page.tsx/main-page';
 
-type MainPageProps = {
-  rentalOffers: number;
+type RentalOffersProps = {
+  rentalOffersAmount: number;
 };
 
-function App({ rentalOffers }: MainPageProps): JSX.Element {
-  return <MainPage rentalOffers={rentalOffers} />;
+function App({ rentalOffersAmount }: RentalOffersProps): JSX.Element {
+  return <MainPage rentalOffersAmount={rentalOffersAmount} />;
 }
 
 export default App;
