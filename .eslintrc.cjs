@@ -6,21 +6,25 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:react-hooks/recommended',
-    "htmlacademy/react-typescript",
-    "prettier",
+    'htmlacademy/react-typescript',
+    'prettier',
   ],
   parser: '@typescript-eslint/parser',
-  parserOptions: { ecmaVersion: 'latest', sourceType: 'module', project: 'tsconfig.json' },
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    project: 'tsconfig.json',
+  },
   settings: { react: { version: 'detect' } },
-  plugins: ['react-refresh', "prettier"],
+  plugins: ['react-refresh', 'prettier'],
   rules: {
     'react-refresh/only-export-components': 'warn',
-    "prettier/prettier": "error",  // Shows Prettier issues as ESLint errors
+    'prettier/prettier': 'error', // Shows Prettier issues as ESLint errors
   },
   overrides: [
     {
-      files: [ '*test*' ],
-      rules: { '@typescript-eslint/unbound-method': 'off' }
+      files: ['*test*'],
+      rules: { '@typescript-eslint/unbound-method': 'off' },
     },
   ],
-}
+};
