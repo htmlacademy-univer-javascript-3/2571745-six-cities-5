@@ -7,30 +7,51 @@ import LoginPage from '../../pages/login-page/login-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import PrivateRoute from '../private-route/private-route.tsx';
+import { AccomodationOffer } from '../../types/offer.ts';
 
 type RentalOffersProps = {
   rentalOffersAmount: number;
+  accomodationOffers: AccomodationOffer[];
 };
 
-function App({ rentalOffersAmount }: RentalOffersProps): JSX.Element {
+function App({ rentalOffersAmount, accomodationOffers }: RentalOffersProps): JSX.Element {
+  const favoriteOffers = accomodationOffers.filter((offer) => offer.isFavorite);
+
   return (
     <HelmetProvider>
       <BrowserRouter>
         <Routes>
+          {/* Главная страница */}
           <Route
             path={AppRoute.Main}
-            element={<MainPage rentalOffersAmount={rentalOffersAmount} />}
+            element={
+              <MainPage
+                rentalOffersAmount={rentalOffersAmount}
+                accomodationOffers={accomodationOffers}
+              />
+            }
           />
+
+          {/* Страница логина */}
           <Route path={AppRoute.Login} element={<LoginPage />} />
+
+          {/* Страница избранного (доступ только авторизованным пользователям) */}
           <Route
             path={AppRoute.Favorites}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <FavoritesPage />
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <FavoritesPage favoriteOffers={favoriteOffers} />
               </PrivateRoute>
             }
           />
-          <Route path={AppRoute.Offer} element={<OfferPage />} />
+
+          {/* Страница предложения */}
+          <Route
+            path={`${AppRoute.Offer}/:id`}
+            element={<OfferPage />}
+          />
+
+          {/* Страница 404 */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
