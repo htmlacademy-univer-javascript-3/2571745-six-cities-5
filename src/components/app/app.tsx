@@ -8,6 +8,7 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import PrivateRoute from '../private-route/private-route.tsx';
 import { AccomodationOffer } from '../../types/offer.ts';
+import 'leaflet/dist/leaflet.css';
 
 type RentalOffersProps = {
   rentalOffersAmount: number;
