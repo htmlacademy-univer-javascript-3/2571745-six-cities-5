@@ -1,5 +1,15 @@
 import OfferList from '../../components/offersList/offersList';
 import { AccomodationOffer } from '../../types/offer';
+import Map from '../../components/map/Map';
+import { City, Points } from '../../types/map';
+import { offers } from '../../mocks/offers';
+
+const city: City = {
+  title: 'Amsterdam',
+  lat: 52.3909553943508,
+  lng: 4.85309666406198,
+  zoom: 12,
+};
 
 type RentalOffersProps = {
   rentalOffersAmount: number;
@@ -7,6 +17,12 @@ type RentalOffersProps = {
 };
 
 function MainPage({ rentalOffersAmount, accomodationOffers }: RentalOffersProps): JSX.Element {
+  const points = offers.map((offer) => ({
+    title: offer.title,
+    lat: offer.location.latitude,
+    lng: offer.location.longitude,
+  }));
+  
   return (
     <div className="page page--gray page--main">
       <header className="header">
@@ -124,7 +140,7 @@ function MainPage({ rentalOffersAmount, accomodationOffers }: RentalOffersProps)
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={city} points={points} selectedPoint={undefined} />
             </div>
           </div>
         </div>

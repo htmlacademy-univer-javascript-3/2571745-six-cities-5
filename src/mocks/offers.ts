@@ -26,11 +26,11 @@ export const offers: AccomodationOffer[] = [
         isPremium: false,
         isFavorite: true,
         location: {
-            latitude: 52.369553943508,
+            latitude: 52.3609553943508,
             longitude: 4.85309666406198,
             zoom: 10,
         },
-        city: 'Cologne',
+        city: 'Amsterdam',
         previewImage: 'img/apartment-02.jpg',
     },
     {
@@ -62,7 +62,7 @@ export const offers: AccomodationOffer[] = [
             longitude: 4.939309666406198,
             zoom: 10,
         },
-        city: 'Brussels',
+        city: 'Amsterdam',
         previewImage: 'img/apartment-small-04.jpg',
     },
 ];
