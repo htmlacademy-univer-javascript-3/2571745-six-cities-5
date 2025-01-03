@@ -1,18 +1,21 @@
-export type Location = {
+export interface AccomodationOffer {
+  id: string;
+  title: string;
+  city: {
+    name: string;
+    location: {
+      latitude: number;
+      longitude: number;
+      zoom: number;
+    };
+  };
+  location: {
     latitude: number;
     longitude: number;
     zoom: number;
   };
-  
-  export type AccomodationOffer = {
-    id: string;
-    title: string;
-    type: string;
-    price: number;
-    rating: number;
-    isPremium: boolean;
-    isFavorite: boolean;
-    location: Location;
-    city: string;
-    previewImage: string;
-  };
+  price: number;
+  isPremium: boolean;
+  isFavorite: boolean;
+  previewImage: string;
+}

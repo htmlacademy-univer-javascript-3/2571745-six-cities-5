@@ -1,12 +1,23 @@
 import { useState } from 'react';
-import { AccomodationOffer } from '../../types/offer';
 import Card from '../card/card';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
-type OfferListProps = {
-  offers: AccomodationOffer[];
-};
 
-function OfferList({ offers }: OfferListProps): JSX.Element {
+function OfferList(): JSX.Element {
+
+  const currentCity = useSelector((state: RootState) => state.city);
+  const offers = useSelector((state: RootState) =>
+    state.offersList.filter((offer) => offer.city.name === currentCity)
+  );
+
+  if (offers.length === 0) {
+    return <p>No offers available for {currentCity}</p>;
+  }
+
+
+
+
   const [activeOfferId, setActiveOfferId] = useState<string | null>(null);
 
   const handleMouseEnter = (id: string) => {
