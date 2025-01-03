@@ -1,11 +1,13 @@
-import { AccomodationOffer } from "../../types/offer";
 import Card from "../../components/card/card";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store";
 
-type FavoritesPageProps = {
-  favoriteOffers: AccomodationOffer[];
-};
+function FavoritesPage(): JSX.Element {
 
-function FavoritesPage({ favoriteOffers }: FavoritesPageProps): JSX.Element {
+  const favoriteOffers = useSelector((state: RootState) =>
+    state.offersList.filter((offer) => offer.isFavorite)
+  );
+
   return (
     <div className="page">
       <header className="header">
