@@ -1,27 +1,39 @@
 import OfferList from '../../components/offersList/offersList';
-import { AccomodationOffer } from '../../types/offer';
 import Map from '../../components/map/Map';
-import { City, Points } from '../../types/map';
-import { offers } from '../../mocks/offers';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { RootState } from '../../store';
+import { setCurrentCityAction } from '../../action';
+import { selectOffersForCity } from '../../selector';
+import { cities } from '../../mocks/cities';
 
-const city: City = {
-  title: 'Amsterdam',
-  lat: 52.3909553943508,
-  lng: 4.85309666406198,
-  zoom: 12,
-};
+function MainPage(): JSX.Element {
+  const dispatch = useDispatch();
+  const currentCity = useSelector((state: RootState) => state.city);
+  const offers = useSelector(selectOffersForCity);
 
-type RentalOffersProps = {
-  rentalOffersAmount: number;
-  accomodationOffers: AccomodationOffer[];
-};
+  const cityOffers = offers.filter((offer) => offer.city === currentCity);
+  const cityData = cityOffers.length > 0 ? {
+    title: currentCity,
+    lat: cityOffers[0].location.latitude,
+    lng: cityOffers[0].location.longitude,
+    zoom: cityOffers[0].location.zoom,
+  } : {
+    title: currentCity,
+    lat: 52.3909553943508,
+    lng: 4.85309666406198,
+    zoom: 12,
+  };
 
-function MainPage({ rentalOffersAmount, accomodationOffers }: RentalOffersProps): JSX.Element {
-  const points = offers.map((offer) => ({
+  const points = cityOffers.map((offer) => ({
     title: offer.title,
     lat: offer.location.latitude,
     lng: offer.location.longitude,
   }));
+
+  const handleCityChange = (city: string) => {
+    dispatch(setCurrentCityAction(city));
+  };
   
   return (
     <div className="page page--gray page--main">
@@ -69,36 +81,19 @@ function MainPage({ rentalOffersAmount, accomodationOffers }: RentalOffersProps)
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
+              {cities.map((city) => (
+                <li className="locations__item" key={city.name}>
+                  <a
+                    className={`locations__item-link tabs__item ${
+                      city.name === currentCity ? 'tabs__item--active' : ''
+                    }`}
+                    href="#"
+                    onClick={() => handleCityChange(city.name)}
+                  >
+                    <span>{city.name}</span>
+                  </a>
+                </li>
+              ))}
             </ul>
           </section>
         </div>
@@ -107,7 +102,7 @@ function MainPage({ rentalOffersAmount, accomodationOffers }: RentalOffersProps)
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-                {rentalOffersAmount} places to stay in Amsterdam
+              {offers.length} places to stay in Amsterdam
               </b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
@@ -136,11 +131,11 @@ function MainPage({ rentalOffersAmount, accomodationOffers }: RentalOffersProps)
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OfferList offers={accomodationOffers} />
+                <OfferList offers={offers} />
               </div>
             </section>
             <div className="cities__right-section">
-              <Map city={city} points={points} selectedPoint={undefined} />
+              <Map city={cityData} points={points} selectedPoint={undefined} />
             </div>
           </div>
         </div>
