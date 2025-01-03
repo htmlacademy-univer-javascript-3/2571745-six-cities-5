@@ -3,27 +3,42 @@ import Map from '../../components/map/Map';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { RootState } from '../../store';
-import { setCurrentCityAction } from '../../action';
+ import { setCurrentCityAction } from '../../action';
 import { selectOffersForCity } from '../../selector';
 import { cities } from '../../mocks/cities';
+import { AppDispatch } from '../../store';
+import { useEffect } from 'react';
+import { loadOffersAction } from '../../action';
+import Spinner from '../../components/spinner/spinner';
 
 function MainPage(): JSX.Element {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const currentCity = useSelector((state: RootState) => state.city);
   const offers = useSelector(selectOffersForCity);
+  const isLoading = useSelector((state: RootState) => state.isLoading);
 
-  const cityOffers = offers.filter((offer) => offer.city === currentCity);
-  const cityData = cityOffers.length > 0 ? {
-    title: currentCity,
-    lat: cityOffers[0].location.latitude,
-    lng: cityOffers[0].location.longitude,
-    zoom: cityOffers[0].location.zoom,
-  } : {
-    title: currentCity,
-    lat: 52.3909553943508,
-    lng: 4.85309666406198,
-    zoom: 12,
-  };
+  console.log("Current city:", currentCity);
+  console.log("Offers count:", offers.length);
+  console.log("Offers:", offers);
+
+  useEffect(() => {
+    dispatch(loadOffersAction());
+  }, [dispatch]);
+
+  const cityOffers = offers.filter((offer) => offer.city.name === currentCity);
+  const cityData = cityOffers.length > 0
+    ? {
+        title: currentCity,
+        lat: cityOffers[0].location.latitude,
+        lng: cityOffers[0].location.longitude,
+        zoom: cityOffers[0].location.zoom,
+      }
+    : {
+        title: currentCity,
+        lat: 52.3909553943508,
+        lng: 4.85309666406198,
+        zoom: 12,
+      };
 
   const points = cityOffers.map((offer) => ({
     title: offer.title,
@@ -34,6 +49,10 @@ function MainPage(): JSX.Element {
   const handleCityChange = (city: string) => {
     dispatch(setCurrentCityAction(city));
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
   
   return (
     <div className="page page--gray page--main">
@@ -102,7 +121,7 @@ function MainPage(): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-              {offers.length} places to stay in Amsterdam
+              {offers.length} places to stay in {currentCity}
               </b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
@@ -131,7 +150,7 @@ function MainPage(): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <OfferList offers={offers} />
+                <OfferList />
               </div>
             </section>
             <div className="cities__right-section">
