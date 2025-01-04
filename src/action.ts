@@ -8,6 +8,11 @@ export const Action = {
     LOAD_OFFERS: 'LOAD_OFFERS',
 };
 
+export const setAuthorizationStatusAction = createAction<AuthorizationStatus>('user/setAuthorizationStatus');
+export const setUserEmailAction = createAction<string>('user/setUserEmail');
+export const setSortTypeAction = createAction<string>('app/setSortType');
+export const signOutAction = createAction('user/signOut');
+
 export const loadOffersAction = createAsyncThunk<
   AccomodationOffer[],
   undefined,
@@ -28,9 +33,6 @@ export const setCurrentCityAction = createAction(Action.SET_CURRENT_CITY, (value
     payload: value,
     };
 });
-
-export const setAuthorizationStatusAction = createAction<AuthorizationStatus>('user/setAuthorizationStatus');
-export const setUserEmailAction = createAction<string>('user/setUserEmail');
 
 export const loginAction = createAsyncThunk<
   number,
@@ -76,4 +78,3 @@ export const checkAuth = createAsyncThunk<
   }
 });
 
-export const signOutAction = createAction('user/signOut');

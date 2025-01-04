@@ -22,7 +22,7 @@ function FavoritesPage(): JSX.Element {
                   <li key={favorite.id} className="favorites__locations-items">
                     <div className="favorites__locations">
                       <div className="favorites__locations-item">
-                        <Card accomodationOffer={favorite} />
+                        <Card accomodationOffer={favorite} onMouseEnter={() => {}} onMouseLeave={() => {}} />
                       </div>
                     </div>
                   </li>
