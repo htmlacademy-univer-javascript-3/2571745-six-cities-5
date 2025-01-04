@@ -1,5 +1,10 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { setCurrentCityAction, loadOffersAction, setAuthorizationStatusAction, signOutAction, setUserEmailAction } from './action';
+import { setCurrentCityAction, 
+    loadOffersAction, 
+    setAuthorizationStatusAction, 
+    signOutAction, 
+    setUserEmailAction,
+    setSortTypeAction } from './action';
 import { AppState } from './types/state';
 import { AuthorizationStatus } from './const';
 
@@ -10,6 +15,7 @@ isLoading: false,
 error: null,
 authorizationStatus: AuthorizationStatus.Unknown,
 userEmail: '',
+sortType: 'popular',
 };
 
 export const updateStore = createReducer(initialState, (builder) => {
@@ -42,6 +48,9 @@ builder
     })
     .addCase(setUserEmailAction, (state, action) => {
         state.userEmail = action.payload;
+    })
+    .addCase(setSortTypeAction, (state, action) => {
+        state.sortType = action.payload;
     });
 });
   

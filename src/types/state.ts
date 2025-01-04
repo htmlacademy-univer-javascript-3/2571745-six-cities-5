@@ -8,4 +8,5 @@ export interface AppState {
   error: string | null;
   authorizationStatus: AuthorizationStatus;
   userEmail: string;
+  sortType: string;
 }

@@ -3,7 +3,7 @@ import Map from '../../components/map/Map';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { RootState } from '../../store';
- import { setCurrentCityAction } from '../../action';
+ import { setCurrentCityAction, setSortTypeAction } from '../../action';
 import { selectOffersForCity } from '../../selector';
 import { cities } from '../../mocks/cities';
 import { AppDispatch } from '../../store';
@@ -11,12 +11,17 @@ import { useEffect } from 'react';
 import { loadOffersAction } from '../../action';
 import Spinner from '../../components/spinner/spinner';
 import Header from '../../components/header/header';
+import Sorting from '../../components/sorting/sorting';
+import { useState } from 'react';
 
 function MainPage(): JSX.Element {
   const dispatch = useDispatch<AppDispatch>();
   const currentCity = useSelector((state: RootState) => state.city);
   const offers = useSelector(selectOffersForCity);
   const isLoading = useSelector((state: RootState) => state.isLoading);
+  const sortType = useSelector((state: RootState) => state.sortType);
+  const [selectedOfferId, setSelectedOfferId] = useState<string | null>(null);
+  
 
   console.log("Current city:", currentCity);
   console.log("Offers count:", offers.length);
@@ -42,19 +47,26 @@ function MainPage(): JSX.Element {
       };
 
   const points = cityOffers.map((offer) => ({
+    id: offer.id,
     title: offer.title,
     lat: offer.location.latitude,
     lng: offer.location.longitude,
   }));
 
+  const selectedPoint = points.find((point) => point.id === selectedOfferId);
+
   const handleCityChange = (city: string) => {
     dispatch(setCurrentCityAction(city));
+  };
+
+  const handleSortChange = (type: string) => {
+    dispatch(setSortTypeAction(type));
   };
 
   if (isLoading) {
     return <Spinner />;
   }
-  
+
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -87,38 +99,14 @@ function MainPage(): JSX.Element {
               <b className="places__found">
               {offers.length} places to stay in {currentCity}
               </b>
-              <form className="places__sorting" action="#" method="get">
-                <span className="places__sorting-caption">Sort by</span>
-                <span className="places__sorting-type" tabIndex={0}>
-                  Popular
-                  <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
-                  </svg>
-                </span>
-                <ul className="places__options places__options--custom places__options--opened">
-                  <li
-                    className="places__option places__option--active"
-                    tabIndex={0}
-                  >
-                    Popular
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: low to high
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Price: high to low
-                  </li>
-                  <li className="places__option" tabIndex={0}>
-                    Top rated first
-                  </li>
-                </ul>
-              </form>
-              <div className="cities__places-list places__list tabs__content">
-                <OfferList />
-              </div>
+              
+              <Sorting currentSort={sortType} onSortChange={handleSortChange} />
+
+              <OfferList onCardHover={setSelectedOfferId} />
+
             </section>
             <div className="cities__right-section">
-              <Map city={cityData} points={points} selectedPoint={undefined} />
+              <Map city={cityData} points={points} selectedPoint={selectedPoint} />
             </div>
           </div>
         </div>

@@ -3,13 +3,19 @@ import { Link } from "react-router-dom";
 
 type CardProps = {
   accomodationOffer: AccomodationOffer;
+  onMouseEnter: (id: string) => void;
+  onMouseLeave: () => void;
 };
 
-function Card({ accomodationOffer }: CardProps): JSX.Element {
-  // console.log("Accomodation ID:", accomodationOffer.id)
+function Card({ accomodationOffer, onMouseEnter, onMouseLeave }: CardProps): JSX.Element {
+
 
   return (
-    <article className="cities__card place-card">
+    <article
+      className="cities__card place-card"
+      onMouseEnter={() => onMouseEnter(accomodationOffer.id)}
+      onMouseLeave={onMouseLeave}
+    >
       {accomodationOffer.isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>
