@@ -6,6 +6,8 @@ type CardProps = {
 };
 
 function Card({ accomodationOffer }: CardProps): JSX.Element {
+  // console.log("Accomodation ID:", accomodationOffer.id)
+
   return (
     <article className="cities__card place-card">
       {accomodationOffer.isPremium && (
@@ -14,7 +16,6 @@ function Card({ accomodationOffer }: CardProps): JSX.Element {
         </div>
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
-        <a href="#">
           <Link to={`/offer/${accomodationOffer.id}`}>
             <img
               className="place-card__image"
@@ -24,7 +25,6 @@ function Card({ accomodationOffer }: CardProps): JSX.Element {
               alt="Place image"
             />
           </Link>
-        </a>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -46,11 +46,9 @@ function Card({ accomodationOffer }: CardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-        <a href="#">
           <Link to={`/offer/${accomodationOffer.id}`}>
             {accomodationOffer.title}
           </Link>
-        </a>
         </h2>
         <p className="place-card__type">{accomodationOffer.type}</p>
       </div>

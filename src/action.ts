@@ -1,6 +1,7 @@
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { AccomodationOffer } from './types/offer';
-import { AxiosInstance } from 'axios';
+import { AxiosInstance, AxiosError } from 'axios';
+import { AuthorizationStatus } from './const';
 
 export const Action = {
     SET_CURRENT_CITY: 'SET_CURRENT_CITY',
@@ -28,18 +29,51 @@ export const setCurrentCityAction = createAction(Action.SET_CURRENT_CITY, (value
     };
 });
 
+export const setAuthorizationStatusAction = createAction<AuthorizationStatus>('user/setAuthorizationStatus');
+export const setUserEmailAction = createAction<string>('user/setUserEmail');
 
+export const loginAction = createAsyncThunk<
+  number,
+  { email: string; password: string },
+  { extra: AxiosInstance }
+>('user/login', async ({ email, password }, { extra: api, dispatch, rejectWithValue }) => {
+  try {
 
+    if (!email.trim() || !password.trim()) {
+      return rejectWithValue('Email and password must not be empty.');
+    }
 
-  
-// export const setCurrentCityAction = createAction(Action.SET_CURRENT_CITY, (value) => {
-//     return {
-//     payload: value,
-//     };
-// });
+    const response = await api.post('/login', { email, password });
+    const { data } = response;
+    console.log('Full Login Response:', data);
 
-// export const loadOffersAction = createAction(Action.LOAD_OFFERS, (value) => {
-//     return {
-//     payload: value,
-//     };
-// });
+    localStorage.setItem('six-cities-token', data.token);
+    api.defaults.headers.common['X-Token'] = data.token;
+    dispatch(setAuthorizationStatusAction(AuthorizationStatus.Auth));
+    dispatch(setUserEmailAction(data.email));
+    return response.status;
+
+  } catch (error) {
+    const axiosError = error as AxiosError;
+    console.error('Login failed:', error);
+    const errorMessage = (axiosError.response?.data as any)?.message || 'Failed to login';
+    dispatch(setAuthorizationStatusAction(AuthorizationStatus.NoAuth));
+    return rejectWithValue(errorMessage);
+  }
+});
+
+export const checkAuth = createAsyncThunk<
+  void,
+  undefined,
+  { extra: AxiosInstance }
+>('user/checkAuth', async (_, { extra: api, dispatch }) => {
+  try {
+    await api.get('/login');
+    dispatch(setAuthorizationStatusAction(AuthorizationStatus.Auth));
+  } catch (error) {
+    console.error('Authorization check failed:', error);
+    dispatch(setAuthorizationStatusAction(AuthorizationStatus.NoAuth));
+  }
+});
+
+export const signOutAction = createAction('user/signOut');
