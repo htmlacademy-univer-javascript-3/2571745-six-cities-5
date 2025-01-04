@@ -15,7 +15,9 @@ export interface AccomodationOffer {
     zoom: number;
   };
   price: number;
+  rating: number;
   isPremium: boolean;
   isFavorite: boolean;
   previewImage: string;
+  type: string;
 }

@@ -10,11 +10,29 @@ import PrivateRoute from '../private-route/private-route.tsx';
 import 'leaflet/dist/leaflet.css';
 import { Provider } from 'react-redux';
 import store from '../../store/index.ts';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store/index.ts';
+import { checkAuth } from '../../action.ts';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/index.ts';
+import Spinner from '../spinner/spinner.tsx';
 
 function App(): JSX.Element {
 
+  const dispatch = useDispatch<AppDispatch>();
+  const authorizationStatus = useSelector((state: RootState) => state.authorizationStatus);
+
+  useEffect(() => {
+    dispatch(checkAuth()); // Check user's authorization status on app load
+  }, [dispatch]);
+
+  // Show a spinner while checking authorization
+  if (authorizationStatus === 'UNKNOWN') {
+    return <Spinner />;
+  }
+
   return (
-    <Provider store={store}>
       <HelmetProvider>
         <BrowserRouter>
           <Routes>
@@ -33,7 +51,7 @@ function App(): JSX.Element {
             <Route
               path={AppRoute.Favorites}
               element={
-                <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <PrivateRoute authorizationStatus={authorizationStatus}>
                   <FavoritesPage />
                 </PrivateRoute>
               }
@@ -50,7 +68,6 @@ function App(): JSX.Element {
           </Routes>
         </BrowserRouter>
       </HelmetProvider>
-    </Provider>
   );
 }
 
