@@ -3,7 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentCityAction } from '../../action';
 import { RootState } from '../../store';
 
-const cities = ['Amsterdam', 'Paris', 'Cologne', 'Brussels', 'Hamburg', 'Dusseldorf'];
+const cities = [
+  'Amsterdam',
+  'Paris',
+  'Cologne',
+  'Brussels',
+  'Hamburg',
+  'Dusseldorf',
+];
 
 const CityList: React.FC = () => {
   const dispatch = useDispatch();

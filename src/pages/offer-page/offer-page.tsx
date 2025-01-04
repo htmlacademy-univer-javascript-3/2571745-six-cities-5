@@ -1,6 +1,5 @@
-import CommentForm from "../../components/comment-form/comment-form";
-import store from "../../store";
-import Header from "../../components/header/header";
+import CommentForm from '../../components/comment-form/comment-form';
+import Header from '../../components/header/header';
 
 function OfferPage(): JSX.Element {
   return (

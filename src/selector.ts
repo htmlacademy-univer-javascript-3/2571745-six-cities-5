@@ -10,6 +10,6 @@ export const selectOffersForCity = createSelector(
   [selectOffersList, selectCurrentCity],
   (offersList, currentCity) =>
     offersList.filter(
-      (offer) => offer.city.name.toLowerCase() === currentCity.toLowerCase()
-    )
+      (offer) => offer.city.name.toLowerCase() === currentCity.toLowerCase(),
+    ),
 );

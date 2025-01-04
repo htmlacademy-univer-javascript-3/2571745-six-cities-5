@@ -1,7 +1,7 @@
-import { Review } from "../../types/review"
+// import { Review } from '../../types/review'
 
-type ReviewListProps = {
-    reviews: Review[]
-}
+// type ReviewListProps = {
+//     reviews: Review[]
+// }
 
-function ReviewList ()
+// function ReviewList ()

@@ -5,7 +5,6 @@ import { AuthorizationStatus, AppRoute } from '../../const';
 import { signOutAction } from '../../action';
 
 function Header(): JSX.Element {
-
   const dispatch = useDispatch<AppDispatch>();
 
   const handleSignOut = () => {
@@ -15,7 +14,7 @@ function Header(): JSX.Element {
   const userEmail = useSelector((state: RootState) => state.userEmail);
 
   const authorizationStatus = useSelector(
-    (state: RootState) => state.authorizationStatus
+    (state: RootState) => state.authorizationStatus,
   );
 
   return (

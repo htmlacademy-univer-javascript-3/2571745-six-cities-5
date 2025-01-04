@@ -1,5 +1,5 @@
-import { AccomodationOffer } from "../../types/offer";
-import { Link } from "react-router-dom";
+import { AccomodationOffer } from '../../types/offer';
+import { Link } from 'react-router-dom';
 
 type CardProps = {
   accomodationOffer: AccomodationOffer;
@@ -7,9 +7,11 @@ type CardProps = {
   onMouseLeave: () => void;
 };
 
-function Card({ accomodationOffer, onMouseEnter, onMouseLeave }: CardProps): JSX.Element {
-
-
+function Card({
+  accomodationOffer,
+  onMouseEnter,
+  onMouseLeave,
+}: CardProps): JSX.Element {
   return (
     <article
       className="cities__card place-card"
@@ -22,20 +24,22 @@ function Card({ accomodationOffer, onMouseEnter, onMouseLeave }: CardProps): JSX
         </div>
       )}
       <div className="cities__image-wrapper place-card__image-wrapper">
-          <Link to={`/offer/${accomodationOffer.id}`}>
-            <img
-              className="place-card__image"
-              src={accomodationOffer.previewImage}
-              width="260"
-              height="200"
-              alt="Place image"
-            />
-          </Link>
+        <Link to={`/offer/${accomodationOffer.id}`}>
+          <img
+            className="place-card__image"
+            src={accomodationOffer.previewImage}
+            width="260"
+            height="200"
+            alt="Place image"
+          />
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
           <div className="place-card__price">
-            <b className="place-card__price-value">&euro;{accomodationOffer.price}</b>
+            <b className="place-card__price-value">
+              &euro;{accomodationOffer.price}
+            </b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
           <button className="place-card__bookmark-button button" type="button">
@@ -47,7 +51,9 @@ function Card({ accomodationOffer, onMouseEnter, onMouseLeave }: CardProps): JSX
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-          <span style={{ width: `${(accomodationOffer.rating / 5) * 100}%` }}></span>
+            <span
+              style={{ width: `${(accomodationOffer.rating / 5) * 100}%` }}
+            ></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

@@ -3,7 +3,7 @@ import Map from '../../components/map/Map';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { RootState } from '../../store';
- import { setCurrentCityAction, setSortTypeAction } from '../../action';
+import { setCurrentCityAction, setSortTypeAction } from '../../action';
 import { selectOffersForCity } from '../../selector';
 import { cities } from '../../mocks/cities';
 import { AppDispatch } from '../../store';
@@ -21,30 +21,30 @@ function MainPage(): JSX.Element {
   const isLoading = useSelector((state: RootState) => state.isLoading);
   const sortType = useSelector((state: RootState) => state.sortType);
   const [selectedOfferId, setSelectedOfferId] = useState<string | null>(null);
-  
 
-  console.log("Current city:", currentCity);
-  console.log("Offers count:", offers.length);
-  console.log("Offers:", offers);
+  // console.log("Current city:", currentCity);
+  // console.log("Offers count:", offers.length);
+  // console.log("Offers:", offers);
 
   useEffect(() => {
     dispatch(loadOffersAction());
   }, [dispatch]);
 
   const cityOffers = offers.filter((offer) => offer.city.name === currentCity);
-  const cityData = cityOffers.length > 0
-    ? {
-        title: currentCity,
-        lat: cityOffers[0].location.latitude,
-        lng: cityOffers[0].location.longitude,
-        zoom: cityOffers[0].location.zoom,
-      }
-    : {
-        title: currentCity,
-        lat: 52.3909553943508,
-        lng: 4.85309666406198,
-        zoom: 12,
-      };
+  const cityData =
+    cityOffers.length > 0
+      ? {
+          title: currentCity,
+          lat: cityOffers[0].location.latitude,
+          lng: cityOffers[0].location.longitude,
+          zoom: cityOffers[0].location.zoom,
+        }
+      : {
+          title: currentCity,
+          lat: 52.3909553943508,
+          lng: 4.85309666406198,
+          zoom: 12,
+        };
 
   const points = cityOffers.map((offer) => ({
     id: offer.id,
@@ -97,16 +97,19 @@ function MainPage(): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">
-              {offers.length} places to stay in {currentCity}
+                {offers.length} places to stay in {currentCity}
               </b>
-              
+
               <Sorting currentSort={sortType} onSortChange={handleSortChange} />
 
               <OfferList onCardHover={setSelectedOfferId} />
-
             </section>
             <div className="cities__right-section">
-              <Map city={cityData} points={points} selectedPoint={selectedPoint} />
+              <Map
+                city={cityData}
+                points={points}
+                selectedPoint={selectedPoint}
+              />
             </div>
           </div>
         </div>

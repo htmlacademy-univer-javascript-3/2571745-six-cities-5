@@ -8,11 +8,10 @@ type OfferListProps = {
 };
 
 function OfferList({ onCardHover }: OfferListProps): JSX.Element {
-
   const currentCity = useSelector((state: RootState) => state.city);
   const sortType = useSelector((state: RootState) => state.sortType);
   const offers = useSelector((state: RootState) =>
-    state.offersList.filter((offer) => offer.city.name === currentCity)
+    state.offersList.filter((offer) => offer.city.name === currentCity),
   );
 
   const cityOffers = offers.filter((offer) => offer.city.name === currentCity);
@@ -52,7 +51,8 @@ function OfferList({ onCardHover }: OfferListProps): JSX.Element {
           onMouseEnter={() => handleMouseEnter(offer.id)}
           onMouseLeave={handleMouseLeave}
         >
-          <Card key={offer.id}
+          <Card
+            key={offer.id}
             accomodationOffer={offer}
             onMouseEnter={() => onCardHover(offer.id)}
             onMouseLeave={() => onCardHover(null)}

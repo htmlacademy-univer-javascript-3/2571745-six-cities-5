@@ -1,12 +1,11 @@
-import Card from "../../components/card/card";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import Header from "../../components/header/header";
+import Card from '../../components/card/card';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import Header from '../../components/header/header';
 
 function FavoritesPage(): JSX.Element {
-
   const favoriteOffers = useSelector((state: RootState) =>
-    state.offersList.filter((offer) => offer.isFavorite)
+    state.offersList.filter((offer) => offer.isFavorite),
   );
 
   return (
@@ -19,14 +18,18 @@ function FavoritesPage(): JSX.Element {
             <h1 className="favorites__title">Saved listing</h1>
             <ul className="favorites__list">
               {favoriteOffers.map((favorite) => (
-                  <li key={favorite.id} className="favorites__locations-items">
-                    <div className="favorites__locations">
-                      <div className="favorites__locations-item">
-                        <Card accomodationOffer={favorite} onMouseEnter={() => {}} onMouseLeave={() => {}} />
-                      </div>
+                <li key={favorite.id} className="favorites__locations-items">
+                  <div className="favorites__locations">
+                    <div className="favorites__locations-item">
+                      <Card
+                        accomodationOffer={favorite}
+                        onMouseEnter={() => {}}
+                        onMouseLeave={() => {}}
+                      />
                     </div>
-                  </li>
-                ))}
+                  </div>
+                </li>
+              ))}
             </ul>
           </section>
         </div>

@@ -18,10 +18,12 @@ export const createAPI = (): AxiosInstance => {
     (response) => response,
     (error) => {
       if (error.response?.status === 401) {
-        store.dispatch(setAuthorizationStatusAction(AuthorizationStatus.NoAuth));
+        store.dispatch(
+          setAuthorizationStatusAction(AuthorizationStatus.NoAuth),
+        );
       }
       return Promise.reject(error);
-    }
+    },
   );
 
   // Add token to headers if it exists
