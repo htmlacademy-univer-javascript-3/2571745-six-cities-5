@@ -2,6 +2,7 @@ import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import { AccomodationOffer } from './types/offer';
 import { AxiosInstance, AxiosError } from 'axios';
 import { AuthorizationStatus } from './const';
+import { Review } from './types/review';
 
 export const Action = {
   SET_CURRENT_CITY: 'SET_CURRENT_CITY',
@@ -20,6 +21,7 @@ export const loadOffersAction = createAsyncThunk<
   undefined,
   { extra: AxiosInstance }
 >('data/loadOffers', async (_, { extra: api, rejectWithValue }) => {
+  console.log('Extra argument (API):', api);
   try {
     const { data } = await api.get<AccomodationOffer[]>('/offers');
     return data;
@@ -83,3 +85,51 @@ export const checkAuth = createAsyncThunk<
     dispatch(setAuthorizationStatusAction(AuthorizationStatus.NoAuth));
   }
 });
+
+export const loadOfferDetailsAction = createAsyncThunk<
+  { offer: AccomodationOffer; nearbyOffers: AccomodationOffer[] },
+  string,
+  { extra: AxiosInstance }
+>('data/loadOfferDetails', async (offerId, { extra: api, rejectWithValue }) => {
+  try {
+    const { data: offer } = await api.get<AccomodationOffer>(`/offers/${offerId}`);
+    const { data: nearbyOffers } = await api.get<AccomodationOffer[]>(`/offers/${offerId}/nearby`);
+    console.log('Fetched Offer:', offer);
+    console.log('Nearby Offers:', nearbyOffers);
+    return { offer, nearbyOffers };
+  } catch (error) {
+    return rejectWithValue('Failed to load offer details');
+  }
+});
+
+export const loadReviewsAction = createAsyncThunk<
+  Review[],
+  string,
+  { extra: AxiosInstance }
+>('data/loadComments', async (offerId, { extra: api, rejectWithValue }) => {
+  try {
+    const { data } = await api.get<Review[]>(`/comments/${offerId}`);
+    return data;
+  } catch (error) {
+    return rejectWithValue('Failed to load comments');
+  }
+});
+
+export const postReviewAction = createAsyncThunk<
+  Review[],
+  { offerId: string; comment: string; rating: number },
+  { extra: AxiosInstance }
+>(
+  'data/postComment',
+  async ({ offerId, comment, rating }, { extra: api, rejectWithValue }) => {
+    try {
+      const { data } = await api.post<Review[]>(`/comments/${offerId}`, {
+        comment,
+        rating,
+      });
+      return data;
+    } catch (error) {
+      return rejectWithValue('Failed to post comment');
+    }
+  }
+);

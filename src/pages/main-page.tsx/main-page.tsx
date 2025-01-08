@@ -22,10 +22,6 @@ function MainPage(): JSX.Element {
   const sortType = useSelector((state: RootState) => state.sortType);
   const [selectedOfferId, setSelectedOfferId] = useState<string | null>(null);
 
-  // console.log("Current city:", currentCity);
-  // console.log("Offers count:", offers.length);
-  // console.log("Offers:", offers);
-
   useEffect(() => {
     dispatch(loadOffersAction());
   }, [dispatch]);

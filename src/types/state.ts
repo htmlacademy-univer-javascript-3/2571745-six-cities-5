@@ -1,5 +1,6 @@
 import { AccomodationOffer } from '../types/offer';
 import { AuthorizationStatus } from '../const';
+import { Review } from './review';
 
 export interface AppState {
   city: string;
@@ -9,4 +10,9 @@ export interface AppState {
   authorizationStatus: AuthorizationStatus;
   userEmail: string;
   sortType: string;
+  currentOffer: AccomodationOffer | null;
+  nearbyOffers: AccomodationOffer[];
+  currentReviews: Review[];
+  isLoadingReviews: boolean;
+  isLoadingCurrentOffer: boolean;
 }
