@@ -33,16 +33,6 @@ export const selectOffersSorted = createSelector(
   }
 );
 
-const selectCurrentOffer = (state: RootState) => state.currentOffer;
-const selectReviews = (state: RootState) => state.currentReviews;
-const selectNearbyOffers = (state: RootState) => state.nearbyOffers;
-
-export const selectOfferPageData = createSelector(
-  [selectCurrentOffer, selectReviews, selectNearbyOffers],
-  (currentOffer = null, reviews = [], nearbyOffers = []) => ({
-    currentOffer,
-    reviews,
-    nearbyOffers,
-  })
-);
-
+export const selectCurrentOffer = (state: RootState) => state.currentOffer;
+export const selectReviews = (state: RootState) => state.currentReviews;
+export const selectNearbyOffers = (state: RootState) => state.nearbyOffers;

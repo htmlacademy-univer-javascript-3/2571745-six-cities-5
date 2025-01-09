@@ -38,8 +38,6 @@ export const updateStore = createReducer(initialState, (builder) => {
       state.isLoading = true;
     })
     .addCase(loadOffersAction.fulfilled, (state, action) => {
-      console.log('Main page Action fullfilled2222222222222222:');
-      console.log('Main page Action fullfilled:', action.payload);
       state.isLoading = false;
       state.offersList = action.payload;
     })
@@ -69,29 +67,26 @@ export const updateStore = createReducer(initialState, (builder) => {
 
     // LOAD DETAILS
     .addCase(loadOfferDetailsAction.pending, (state) => {
-      console.log('Pending loadoffer');
       state.isLoadingCurrentOffer = true;
       state.error = null;
     })
     .addCase(loadOfferDetailsAction.fulfilled, (state, action) => {
-      console.log('Reducer Fulfilled Action Payload:', action.payload.offer);
       state.isLoadingCurrentOffer = false;
       state.currentOffer = action.payload.offer;
       state.nearbyOffers = action.payload.nearbyOffers || [];
-      console.log('Updated State in Reducer:', state);
     })
     .addCase(loadOfferDetailsAction.rejected, (state, action) => {
-      console.error('API Call Failed:', action.payload);
       state.isLoadingCurrentOffer = false;
       state.error = action.payload as string;
     })
 
-    
+    // LOAD REVIEWS
     .addCase(loadReviewsAction.pending, (state) => {
       state.isLoadingReviews = true;
       state.error = null;
     })
     .addCase(loadReviewsAction.fulfilled, (state, action) => {
+      console.log("loadReviewsAction result:", action.payload);
       state.isLoadingReviews = false;
       state.currentReviews = action.payload;
     })
@@ -99,6 +94,8 @@ export const updateStore = createReducer(initialState, (builder) => {
       state.isLoadingReviews = false;
       state.error = action.payload as string;
     })
+
+    // POST REVIEWS
     .addCase(postReviewAction.pending, (state) => {
       state.isLoadingReviews = true;
     })

@@ -109,6 +109,7 @@ export const loadReviewsAction = createAsyncThunk<
 >('data/loadComments', async (offerId, { extra: api, rejectWithValue }) => {
   try {
     const { data } = await api.get<Review[]>(`/comments/${offerId}`);
+    console.log(data)
     return data;
   } catch (error) {
     return rejectWithValue('Failed to load comments');
