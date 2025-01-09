@@ -11,6 +11,9 @@ export const createAPI = (): AxiosInstance => {
   const api = axios.create({
     baseURL: BACKEND_URL,
     timeout: REQUEST_TIMEOUT,
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 
   // Add interceptor for 401 errors
@@ -18,10 +21,13 @@ export const createAPI = (): AxiosInstance => {
     (response) => response,
     (error) => {
       if (error.response?.status === 401) {
-        store.dispatch(setAuthorizationStatusAction(AuthorizationStatus.NoAuth));
+        console.warn('User is unauthorized. Proceeding without authorization.');
+        store.dispatch(
+          setAuthorizationStatusAction(AuthorizationStatus.NoAuth),
+        );
       }
       return Promise.reject(error);
-    }
+    },
   );
 
   // Add token to headers if it exists

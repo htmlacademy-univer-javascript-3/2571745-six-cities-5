@@ -1,4 +1,4 @@
-import Header from "../../components/header/header";
+import Header from '../../components/header/header';
 
 function MainEmptyPage(): JSX.Element {
   return (

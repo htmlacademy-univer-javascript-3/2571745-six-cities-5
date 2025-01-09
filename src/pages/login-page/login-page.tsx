@@ -1,17 +1,16 @@
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../../store";
-import { useState } from "react";
-import { loginAction } from "../../action";
-import { Link } from "react-router-dom";
-import { AppRoute } from "../../const";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { useEffect } from "react";
-import { AuthorizationStatus } from "../../const";
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { useState } from 'react';
+import { loginAction } from '../../action';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { useEffect } from 'react';
+import { AuthorizationStatus } from '../../const';
 
 function LoginPage(): JSX.Element {
-
   const dispatch = useDispatch<AppDispatch>();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -48,7 +47,7 @@ function LoginPage(): JSX.Element {
 
   const navigate = useNavigate();
   const authorizationStatus = useSelector(
-    (state: RootState) => state.authorizationStatus
+    (state: RootState) => state.authorizationStatus,
   );
 
   useEffect(() => {
@@ -82,6 +81,13 @@ function LoginPage(): JSX.Element {
           <section className="login">
             <h1 className="login__title">Sign in</h1>
             <form className="login__form form" onSubmit={handleSubmit}>
+              
+              {errorMessage && (
+                <div className="login__error-message">
+                  <p style={{ color: 'red' }}>{errorMessage}</p>
+                </div>
+              )}
+
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input

@@ -20,4 +20,14 @@ export interface AccomodationOffer {
   isFavorite: boolean;
   previewImage: string;
   type: string;
+  images?: [] | null;
+  bedrooms?: number;
+  maxAdults?: number;
+  goods?: [];
+  host?: {
+    isPro: boolean;
+    name: string;
+    avatarUrl: string;
+  }
+  description?: string;
 }
